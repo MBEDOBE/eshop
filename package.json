@@ -19,8 +19,10 @@
   "homepage": "https://github.com/MBEDOBE/eshop#readme",
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "dotenv": "^9.0.2",
     "express": "^4.17.1",
     "express-async-handler": "^1.1.4",
+    "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.12.8"
   },
   "devDependencies": {
