@@ -11,7 +11,7 @@ import ProductScreen from './screens/ProductScreen';
 import RegisterScreen from './screens/RegisterScreen';
 import ShippingAddressScreen from './screens/ShippingAddressScreen';
 import SigninScreen from './screens/SigninScreen';
-import FlutterScreen from './screens/FlutterScreen';
+
 
 
 function App() {
@@ -69,7 +69,7 @@ function App() {
           <Route path="/" component={HomeScreen} exact></Route>
 
         </main>
-        <footer className="row center">© 2020 REIN IT - All rights reserved</footer>
+        <footer className="row center">© 2021 REIN IT - All rights reserved</footer>
       </div>
     </BrowserRouter>
   );

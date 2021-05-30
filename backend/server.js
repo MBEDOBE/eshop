@@ -23,9 +23,6 @@ app.use('/api/orders', orderRouter);
 app.get('/api/config/paypal', (req, res) => {
   res.send(process.env.PAYPAL_CLIENT_ID || 'sb');
 });
-app.get('/api/config/flutterwave', (req, res) => {
-  res.send(process.env.PUBLIC_KEY || 'test');
-});
 app.get('/', (req, res) => {
     res.send('Server is ready');
 });
