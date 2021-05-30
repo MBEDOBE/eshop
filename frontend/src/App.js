@@ -11,6 +11,7 @@ import ProductScreen from './screens/ProductScreen';
 import RegisterScreen from './screens/RegisterScreen';
 import ShippingAddressScreen from './screens/ShippingAddressScreen';
 import SigninScreen from './screens/SigninScreen';
+import FlutterScreen from './screens/FlutterScreen';
 
 
 function App() {

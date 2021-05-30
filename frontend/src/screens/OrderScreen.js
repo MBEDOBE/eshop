@@ -47,6 +47,7 @@ export default function OrderScreen(props) {
   };
 
 
+
   return loading ? (
     <LoadingBox></LoadingBox>
   ) : error ? (
@@ -165,7 +166,7 @@ export default function OrderScreen(props) {
                       amount={order.totalPrice}
                       onSuccess={successPaymentHandler}
                     ></PayPalButton>
-                  )}  
+                  )} 
                 </li>
               )}
             </ul>
