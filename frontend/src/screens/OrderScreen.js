@@ -9,6 +9,7 @@ import MessageBox from '../components/MessageBox';
 
 
 
+
 export default function OrderScreen(props) {
   const orderId = props.match.params.id;
   const [sdkReady, setSdkReady] = useState(false);
@@ -16,7 +17,7 @@ export default function OrderScreen(props) {
   const { order, loading, error } = orderDetails;
   const dispatch = useDispatch();
   useEffect(() => {
-     const addPayPalScript = async () => {
+      const addPayPalScript = async () => {
       const { data } = await Axios.get('/api/config/paypal');
       const script = document.createElement('script');
       script.type = 'text/javascript';
@@ -37,15 +38,14 @@ export default function OrderScreen(props) {
           setSdkReady(true);
         }
       }
-    }
+    } 
+    
   }, [dispatch, order, orderId, sdkReady]);
 
   const successPaymentHandler = () => {
     // TODO: dispatch pay order
   };
 
-
-    
 
   return loading ? (
     <LoadingBox></LoadingBox>
@@ -158,14 +158,14 @@ export default function OrderScreen(props) {
               </li>
                             {!order.isPaid && (
                 <li>
-                  {!sdkReady ? (
+                   {!sdkReady ? (
                     <LoadingBox></LoadingBox>
                   ) : (
                     <PayPalButton
                       amount={order.totalPrice}
                       onSuccess={successPaymentHandler}
                     ></PayPalButton>
-                  )}
+                  )}  
                 </li>
               )}
             </ul>

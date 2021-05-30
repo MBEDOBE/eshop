@@ -55,13 +55,13 @@ export default function PaymentMethodScreen(props) {
           <div>
             <input
               type="radio"
-              id="paystack"
-              value="PayStack"
+              id="flutterwave"
+              value="FlutterWave"
               name="paymentMethod"
               required
               onChange={(e) => setPaymentMethod(e.target.value)}
             ></input>
-            <label htmlFor="paystack">PayStack</label>
+            <label htmlFor="flutterwave">FlutterWave</label>
           </div>
         </div>
         <div>
