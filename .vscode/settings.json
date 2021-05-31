@@ -14,7 +14,7 @@
     },
     "editor.tabSize": 2,
     "editor.detectIndentation": false,
-    "editor.fontSize": 11,
+    "editor.fontSize": 12.5,
     "git.autofetch": true,
     "git.confirmSync": false,
     "git.enableSmartCommit": true,
@@ -29,6 +29,7 @@
         "editorLineNumber.foreground": "#404040"
     },
     "[json]": {
+
         "editor.defaultFormatter": "esbenp.prettier-vscode"
     },
     "window.zoomLevel": 1,
