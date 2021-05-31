@@ -1,3 +1,38 @@
 {
-    "git.ignoreLimitWarning": true
+    "git.ignoreLimitWarning": true,
+    "editor.formatOnPaste": true,
+    "editor.formatOnSave": true,
+    "editor.formatOnType": true,
+    "editor.quickSuggestions": true,
+
+    "extensions.ignoreRecommendations": false,
+    "explorer.confirmDelete": false,
+    "javascript.format.enable": false,
+    "prettier.singleQuote": true,
+    "editor.codeActionsOnSave": {
+        // "source.fixAll.eslint": true
+    },
+    "editor.tabSize": 2,
+    "editor.detectIndentation": false,
+    "editor.fontSize": 13,
+    "git.autofetch": true,
+    "git.confirmSync": false,
+    "git.enableSmartCommit": true,
+    
+    "javascript.updateImportsOnFileMove.enabled": "always",
+    "liveServer.settings.donotShowInfoMsg": true,
+    "liveServer.settings.donotVerifyTags": true,
+    "kite.showWelcomeNotificationOnStartup": false,
+    "editor.minimap.enabled": false,
+    "workbench.colorCustomizations": {
+        "statusBar.background": "#303030",
+        "editorLineNumber.foreground": "#404040"
+    },
+    "[json]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "window.zoomLevel": 1,
+    "workbench.statusBar.visible": false,
+    "editor.tabCompletion": "on",
+    
 }
