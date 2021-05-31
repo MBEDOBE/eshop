@@ -46,7 +46,7 @@ export default function OrderScreen(props) {
     // TODO: dispatch pay order
   };
 
-
+  
 
   return loading ? (
     <LoadingBox></LoadingBox>
@@ -157,16 +157,16 @@ export default function OrderScreen(props) {
                   </div>
                 </div>
               </li>
-                            {!order.isPaid && (
+              {!order.isPaid && (
                 <li>
-                   {!sdkReady ? (
+                  {!sdkReady ? (
                     <LoadingBox></LoadingBox>
                   ) : (
                     <PayPalButton
                       amount={order.totalPrice}
                       onSuccess={successPaymentHandler}
                     ></PayPalButton>
-                  )} 
+                  )}  
 
                   
                 </li>
