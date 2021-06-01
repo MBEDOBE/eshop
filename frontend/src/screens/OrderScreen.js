@@ -1,14 +1,12 @@
 import Axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import {PayPalButton} from 'react-paypal-button-v2';
+import { PayPalButton } from 'react-paypal-button-v2';
+import { PaystackButton } from 'react-paystack';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { detailsOrder } from '../actions/orderActions';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
-
-
-
 
 export default function OrderScreen(props) {
   const orderId = props.match.params.id;
@@ -17,7 +15,7 @@ export default function OrderScreen(props) {
   const { order, loading, error } = orderDetails;
   const dispatch = useDispatch();
   useEffect(() => {
-      const addPayPalScript = async () => {
+    const addPayPalScript = async () => {
       const { data } = await Axios.get('/api/config/paypal');
       const script = document.createElement('script');
       script.type = 'text/javascript';
@@ -38,15 +36,44 @@ export default function OrderScreen(props) {
           setSdkReady(true);
         }
       }
-    } 
-    
+    }
   }, [dispatch, order, orderId, sdkReady]);
 
   const successPaymentHandler = () => {
     // TODO: dispatch pay order
   };
 
-  
+  //paystack
+  const publicKey = process.env.PUBLIC_KEY;
+
+  const amount = 5000;
+
+  const [email, setEmail] = useState('');
+
+  const [name, setName] = useState('');
+
+  const [phone, setPhone] = useState('');
+
+  const componentProps = {
+    email,
+
+    amount,
+
+    metadata: {
+      name,
+
+      phone,
+    },
+
+    publicKey,
+
+    text: 'Pay Now',
+
+    onSuccess: () =>
+      alert('Thanks for doing business with us! Come back soon!!'),
+
+    onClose: () => alert("Wait! Don't leave :("),
+  };
 
   return loading ? (
     <LoadingBox></LoadingBox>
@@ -166,9 +193,45 @@ export default function OrderScreen(props) {
                       amount={order.totalPrice}
                       onSuccess={successPaymentHandler}
                     ></PayPalButton>
-                  )}  
+                  )}
+                  <div className="checkout">
+                    <div className="checkout-form">
+                      <div className="checkout=field">
+                        <label>Name</label>
+                        <input
+                          type="text"
+                          id="name"
+                          value={name}
+                          onChange={(e) => setName(e.target.value)}
+                        />
+                      </div>
+                      <div className="checkout=field">
+                        <label>Email</label>
+                        <input
+                          type="text"
+                          id="email"
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
+                        />
+                      </div>
+                      <div className="checkout=field">
+                        <label>Phone</label>
+                        <input
+                          type="text"
+                          id="phone"
+                          value={phone}
+                          onChange={(e) => setPhone(e.target.value)}
+                        />
+                      </div>
+                    </div>
 
-                  
+                    <PaystackButton
+                      className="paystack-button"
+                      {...(componentProps.amount = order.totalPrice)}
+                    >
+                      PAY NOW
+                    </PaystackButton>
+                  </div>
                 </li>
               )}
             </ul>
@@ -177,7 +240,4 @@ export default function OrderScreen(props) {
       </div>
     </div>
   );
-
-
-  
 }
