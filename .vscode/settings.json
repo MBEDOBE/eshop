@@ -12,7 +12,7 @@
     "editor.codeActionsOnSave": {
         // "source.fixAll.eslint": true
     },
-    "editor.tabSize": 2,
+    "editor.tabSize": 1,
     "editor.detectIndentation": false,
     "editor.fontSize": 12.5,
     "git.autofetch": true,
@@ -32,8 +32,9 @@
 
         "editor.defaultFormatter": "esbenp.prettier-vscode"
     },
-    "window.zoomLevel": 1,
+    "window.zoomLevel": 0.5,
     "workbench.statusBar.visible": false,
     "editor.tabCompletion": "on",
+    "editor.tokenColorCustomizations": null,
     
 }
