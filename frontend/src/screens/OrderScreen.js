@@ -8,6 +8,7 @@ import { detailsOrder } from '../actions/orderActions';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
 
+
 export default function OrderScreen(props) {
   const orderId = props.match.params.id;
   const [sdkReady, setSdkReady] = useState(false);
@@ -37,43 +38,24 @@ export default function OrderScreen(props) {
         }
       }
     }
-  }, [dispatch, order, orderId, sdkReady]);
+  }, [dispatch, order, orderId, ]);
 
   const successPaymentHandler = () => {
     // TODO: dispatch pay order
   };
 
   //paystack
-  const publicKey = process.env.PUBLIC_KEY;
-
-  const amount = 5000;
-
-  const [email, setEmail] = useState('');
-
-  const [name, setName] = useState('');
-
-  const [phone, setPhone] = useState('');
+  const config = {
+   reference: (new Date()).getTime(),
+   amount: 5000,
+   publickey: process.env.PUBLIC_KEY,
+  };
 
   const componentProps = {
-    email,
+   ...config,
+   text: 'Paystack Button',
 
-    amount,
-
-    metadata: {
-      name,
-
-      phone,
-    },
-
-    publicKey,
-
-    text: 'Pay Now',
-
-    onSuccess: () =>
-      alert('Thanks for doing business with us! Come back soon!!'),
-
-    onClose: () => alert("Wait! Don't leave :("),
-  };
+  }
 
   return loading ? (
     <LoadingBox></LoadingBox>
@@ -194,36 +176,6 @@ export default function OrderScreen(props) {
                       onSuccess={successPaymentHandler}
                     ></PayPalButton>
                   )}
-                  <div className="checkout">
-                    <div className="checkout-form">
-                      <div className="checkout=field">
-                        <label>Name</label>
-                        <input
-                          type="text"
-                          id="name"
-                          value={name}
-                          onChange={(e) => setName(e.target.value)}
-                        />
-                      </div>
-                      <div className="checkout=field">
-                        <label>Email</label>
-                        <input
-                          type="text"
-                          id="email"
-                          value={email}
-                          onChange={(e) => setEmail(e.target.value)}
-                        />
-                      </div>
-                      <div className="checkout=field">
-                        <label>Phone</label>
-                        <input
-                          type="text"
-                          id="phone"
-                          value={phone}
-                          onChange={(e) => setPhone(e.target.value)}
-                        />
-                      </div>
-                    </div>
 
                     <PaystackButton
                       className="paystack-button"
@@ -231,7 +183,7 @@ export default function OrderScreen(props) {
                     >
                       PAY NOW
                     </PaystackButton>
-                  </div>
+                  
                 </li>
               )}
             </ul>
