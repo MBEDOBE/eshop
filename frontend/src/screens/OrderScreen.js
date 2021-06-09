@@ -45,7 +45,7 @@ export default function OrderScreen(props) {
 
   //paystack
 
-  const reference = new Date().getTime();
+  //const reference = new Date().getTime();
   const amount = 5000;
   const publickey = process.env.PUBLIC_KEY;
   const [email, setEmail] = useState('');
