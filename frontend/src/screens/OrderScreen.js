@@ -8,7 +8,6 @@ import { detailsOrder } from '../actions/orderActions';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
 
-
 export default function OrderScreen(props) {
   const orderId = props.match.params.id;
   const [sdkReady, setSdkReady] = useState(false);
@@ -38,24 +37,33 @@ export default function OrderScreen(props) {
         }
       }
     }
-  }, [dispatch, order, orderId, ]);
+  }, [dispatch, order, orderId]);
 
   const successPaymentHandler = () => {
     // TODO: dispatch pay order
   };
 
   //paystack
-  const config = {
-   reference: (new Date()).getTime(),
-   amount: 5000,
-   publickey: process.env.PUBLIC_KEY,
-  };
+
+  const reference = new Date().getTime();
+  const amount = 5000;
+  const publickey = process.env.PUBLIC_KEY;
+  const [email, setEmail] = useState('');
+  const [name, setName] = useState('');
+  const [phone, setPhone] = useState('');
 
   const componentProps = {
-   ...config,
-   text: 'Paystack Button',
-
-  }
+    email,
+    amount,
+    metadata: {
+      name,
+      phone,
+    },
+    publickey,
+    text: 'Pay Now',
+    onSuccess: () => alert('Thank You'),
+    onclose: () => alert(),
+  };
 
   return loading ? (
     <LoadingBox></LoadingBox>
@@ -176,14 +184,34 @@ export default function OrderScreen(props) {
                       onSuccess={successPaymentHandler}
                     ></PayPalButton>
                   )}
-
+                  <div className="checkout-form">
+                    <form>
+                      <label>Name</label>
+                      <input
+                        type="text"
+                        id="name"
+                        onChange={(e) => setName(e.target.value)}
+                      />
+                      <label>Email</label>
+                      <input
+                        type="text"
+                        id="email"
+                        onChange={(e) => setEmail(e.target.value)}
+                      />
+                      <label>Phone</label>
+                      <input
+                        type="text"
+                        id="phone"
+                        onChange={(e) => setPhone(e.target.value)}
+                      />
+                    </form>
                     <PaystackButton
                       className="paystack-button"
                       {...(componentProps.amount = order.totalPrice)}
                     >
                       PAY NOW
                     </PaystackButton>
-                  
+                  </div>
                 </li>
               )}
             </ul>
