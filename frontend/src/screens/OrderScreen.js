@@ -47,7 +47,7 @@ export default function OrderScreen(props) {
 
   //const reference = new Date().getTime();
   const amount = 5000;
-  const publickey = process.env.PUBLIC_KEY;
+  const publickey = "pk_test_bfe3a24ab156c170aab28f4a705c4ba46730718d";
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
@@ -205,12 +205,14 @@ export default function OrderScreen(props) {
                         onChange={(e) => setPhone(e.target.value)}
                       />
                     </form>
-                    <PaystackButton
-                      className="paystack-button"
-                      {...(componentProps.amount = order.totalPrice)}
-                    >
-                      PAY NOW
-                    </PaystackButton>
+                    {order.totalPrice && (
+                      <PaystackButton
+                        className="paystack-button"
+                        {...componentProps}
+                      >
+                        PAY NOW
+                      </PaystackButton>
+                    )}
                   </div>
                 </li>
               )}
