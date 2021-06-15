@@ -46,8 +46,8 @@ export default function OrderScreen(props) {
   //paystack
 
   //const reference = new Date().getTime();
-  const amount = 5000;
-  const publickey = "pk_test_bfe3a24ab156c170aab28f4a705c4ba46730718d";
+  const publickey = 'pk_test_bfe3a24ab156c170aab28f4a705c4ba46730718d';
+  const amount = 100000;
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
@@ -61,8 +61,12 @@ export default function OrderScreen(props) {
     },
     publickey,
     text: 'Pay Now',
-    onSuccess: () => alert('Thank You'),
-    onclose: () => alert(),
+    onSuccess: () => {
+      setEmail('');
+      setName('');
+      setPhone('');
+    },
+    onclose: () => alert('Wait! Please review your transaction'),
   };
 
   return loading ? (
@@ -184,36 +188,43 @@ export default function OrderScreen(props) {
                       onSuccess={successPaymentHandler}
                     ></PayPalButton>
                   )}
-                  <div className="checkout-form">
-                    <form>
+                  <div className="checkout">
+                    <div className="checkout-field">
                       <label>Name</label>
                       <input
                         type="text"
                         id="name"
+                        value={name}
                         onChange={(e) => setName(e.target.value)}
                       />
+                    </div>
+                    <div className="checkout-field">
                       <label>Email</label>
                       <input
                         type="text"
                         id="email"
+                        value={email}
                         onChange={(e) => setEmail(e.target.value)}
                       />
+                    </div>
+                    <div className="checkout-field">
                       <label>Phone</label>
                       <input
                         type="text"
                         id="phone"
+                        value={phone}
                         onChange={(e) => setPhone(e.target.value)}
                       />
-                    </form>
-                    {order.totalPrice && (
-                      <PaystackButton
-                        className="paystack-button"
-                        {...componentProps}
-                      >
-                        PAY NOW
-                      </PaystackButton>
-                    )}
+                    </div>
                   </div>
+                  {order.totalPrice && (
+                    <PaystackButton
+                      className="paystack-button"
+                      {...componentProps}
+                    >
+                      PAY NOW
+                    </PaystackButton>
+                  )}
                 </li>
               )}
             </ul>
