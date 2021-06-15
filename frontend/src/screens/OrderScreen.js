@@ -1,4 +1,5 @@
 import Axios from 'axios';
+import { get } from 'mongoose';
 import React, { useEffect, useState } from 'react';
 import { PayPalButton } from 'react-paypal-button-v2';
 import { PaystackButton } from 'react-paystack';
@@ -8,49 +9,25 @@ import { detailsOrder } from '../actions/orderActions';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
 
+
 export default function OrderScreen(props) {
   const orderId = props.match.params.id;
-  const [sdkReady, setSdkReady] = useState(false);
   const orderDetails = useSelector((state) => state.orderDetails);
   const { order, loading, error } = orderDetails;
   const dispatch = useDispatch();
   useEffect(() => {
-    const addPayPalScript = async () => {
-      //const { data } = await Axios.get('/api/config/paypal');
-      const script = document.createElement('script');
-      script.type = 'text/javascript';
-      //script.src = `https://www.paypal.com/sdk/js?client-id=${data}`;
-      script.async = true;
-      script.onload = () => {
-        setSdkReady(true);
-      };
-      document.body.appendChild(script);
-    };
-    if (!order) {
-      dispatch(detailsOrder(orderId));
-    } else {
-      if (!order.isPaid) {
-        if (!window.paypal) {
-          addPayPalScript();
-        } else {
-          setSdkReady(true);
-        }
-      }
-    }
-  }, [dispatch, order, orderId]);
+    dispatch(detailsOrder(orderId));
 
-  const successPaymentHandler = () => {
-    // TODO: dispatch pay order
-  };
+    
+  }, [dispatch, orderId]);
 
   //paystack
-
-  //const reference = new Date().getTime();
-  const publickey = 'pk_test_bfe3a24ab156c170aab28f4a705c4ba46730718d';
-  const amount = 100000;
-  const [email, setEmail] = useState('');
-  const [name, setName] = useState('');
-  const [phone, setPhone] = useState('');
+  const publicKey = 'pk_test_bfe3a24ab156c170aab28f4a705c4ba46730718d';
+  const amount = 100000
+  const currency = 'GHS'
+  const [email, setEmail] = useState("")
+  const [name, setName] = useState("")
+  const [phone, setPhone] = useState("")
 
   const componentProps = {
     email,
@@ -59,16 +36,18 @@ export default function OrderScreen(props) {
       name,
       phone,
     },
-    publickey,
-    text: 'Pay Now',
+    publicKey,
+    currency,
+    text: 'Buy Now',
     onSuccess: () => {
       setEmail('');
       setName('');
       setPhone('');
     },
-    onclose: () => alert('Wait! Please review your transaction'),
+    onClose: () => alert("Wait!"),
   };
 
+  
   return loading ? (
     <LoadingBox></LoadingBox>
   ) : error ? (
@@ -134,7 +113,7 @@ export default function OrderScreen(props) {
                         </div>
 
                         <div>
-                          {item.qty} x ₵{item.price} = ₵{item.qty * item.price}
+                          {item.qty} x GHS{item.price} = GHS{item.qty * item.price}
                         </div>
                       </div>
                     </li>
@@ -153,19 +132,19 @@ export default function OrderScreen(props) {
               <li>
                 <div className="row">
                   <div>Items</div>
-                  <div>₵{order.itemsPrice.toFixed(2)}</div>
+                  <div>GHS{order.itemsPrice.toFixed(2)}</div>
                 </div>
               </li>
               <li>
                 <div className="row">
                   <div>Shipping</div>
-                  <div>₵{order.shippingPrice.toFixed(2)}</div>
+                  <div>{order.shippingPrice.toFixed(2)}</div>
                 </div>
               </li>
               <li>
                 <div className="row">
                   <div>Tax</div>
-                  <div>₵{order.taxPrice.toFixed(2)}</div>
+                  <div>{order.taxPrice.toFixed(2)}</div>
                 </div>
               </li>
               <li>
@@ -174,59 +153,45 @@ export default function OrderScreen(props) {
                     <strong> Order Total</strong>
                   </div>
                   <div>
-                    <strong>₵{order.totalPrice.toFixed(2)}</strong>
+                    <strong>GHS{order.totalPrice.toFixed(2)}</strong> 
                   </div>
                 </div>
               </li>
-              {!order.isPaid && (
-                <li>
-                  {!sdkReady ? (
-                    <LoadingBox></LoadingBox>
-                  ) : (
-                    <PayPalButton
-                      amount={order.totalPrice}
-                      onSuccess={successPaymentHandler}
-                    ></PayPalButton>
-                  )}
-                  <div className="checkout">
-                    <div className="checkout-field">
-                      <label>Name</label>
-                      <input
-                        type="text"
-                        id="name"
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                      />
-                    </div>
-                    <div className="checkout-field">
-                      <label>Email</label>
-                      <input
-                        type="text"
-                        id="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                      />
-                    </div>
-                    <div className="checkout-field">
-                      <label>Phone</label>
-                      <input
-                        type="text"
-                        id="phone"
-                        value={phone}
-                        onChange={(e) => setPhone(e.target.value)}
-                      />
-                    </div>
+              <div className="checkout">
+                <div className="checkout-form">
+                  <div className="checkout-field">
+                    <label>Name</label>
+                    <input
+                      type="text"
+                      id="name"
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                    />
                   </div>
-                  {order.totalPrice && (
-                    <PaystackButton
-                      className="paystack-button"
-                      {...componentProps}
-                    >
-                      PAY NOW
-                    </PaystackButton>
-                  )}
-                </li>
-              )}
+                  <div className="checkout-field">
+                    <label>Email</label>
+                    <input
+                      type="text"
+                      id="email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                    />
+                  </div>
+                  <div className="checkout-field">
+                    <label>Phone</label>
+                    <input
+                      type="text"
+                      id="phone"
+                      value={phone}
+                      onChange={(e) => setPhone(e.target.value)}
+                    />
+                  </div>
+                  {order.totalPrice && <PaystackButton
+                    className="paystack-button"
+                    {...componentProps}
+                  /> }
+                </div>
+              </div>
             </ul>
           </div>
         </div>

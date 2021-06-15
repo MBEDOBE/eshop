@@ -20,12 +20,9 @@ mongoose.connect(process.env.MONGODB_URL || 'mongodb://localhost/eshop', {
 app.use('/api/users', userRouter);
 app.use('/api/products', productRouter);
 app.use('/api/orders', orderRouter);
-/* app.get('/api/config/paypal', (req, res) => {
-  res.send(process.env.PAYPAL_CLIENT_ID || 'sb');
-}); */
-/* app.get('/api/config/paystack', (req, res) => {
+app.get('/api/config/paystack', (req, res) => {
   res.send(process.env.PAYSTACK_PUBLIC_KEY || 'test');
-}); */
+}); 
 app.get('/', (req, res) => {
     res.send('Server is ready');
 });
