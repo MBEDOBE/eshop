@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { PaystackButton } from 'react-paystack';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { detailsOrder } from '../actions/orderActions';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
