@@ -1,13 +1,12 @@
-import Axios from 'axios';
-import { get } from 'mongoose';
 import React, { useEffect, useState } from 'react';
-import { PayPalButton } from 'react-paypal-button-v2';
 import { PaystackButton } from 'react-paystack';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { detailsOrder } from '../actions/orderActions';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
+
+
 
 
 export default function OrderScreen(props) {
@@ -21,9 +20,9 @@ export default function OrderScreen(props) {
     
   }, [dispatch, orderId]);
 
+ 
   //paystack
   const publicKey = 'pk_test_bfe3a24ab156c170aab28f4a705c4ba46730718d';
-  const amount = 100000
   const currency = 'GHS'
   const [email, setEmail] = useState("")
   const [name, setName] = useState("")
@@ -31,7 +30,6 @@ export default function OrderScreen(props) {
 
   const componentProps = {
     email,
-    amount,
     metadata: {
       name,
       phone,
@@ -186,9 +184,10 @@ export default function OrderScreen(props) {
                       onChange={(e) => setPhone(e.target.value)}
                     />
                   </div>
-                  {order.totalPrice && <PaystackButton
+                  
+                  {<PaystackButton
                     className="paystack-button"
-                    {...componentProps}
+                    amount={order.totalPrice * 100}{...componentProps}
                   /> }
                 </div>
               </div>
@@ -197,5 +196,9 @@ export default function OrderScreen(props) {
         </div>
       </div>
     </div>
+
+    
   );
+
+  
 }
