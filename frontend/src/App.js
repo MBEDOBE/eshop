@@ -69,7 +69,7 @@ function App() {
           <Route path="/" component={HomeScreen} exact></Route>
 
         </main>
-        <footer className="row center">© 2021 REIN IT - All rights reserved</footer>
+        <footer className="row center">© 2022 REIN IT - All rights reserved</footer>
       </div>
     </BrowserRouter>
   );
