@@ -63,8 +63,6 @@ export default function OrderScreen(props) {
                   <strong>Name:</strong> {order.shippingAddress.fullName} <br />
                   <strong>Address: </strong> {order.shippingAddress.address},
                   {order.shippingAddress.city},{' '}
-                  {order.shippingAddress.postalCode},
-                  {order.shippingAddress.country}
                 </p>
                 {order.isDelivered ? (
                   <MessageBox variant="success">
@@ -111,7 +109,8 @@ export default function OrderScreen(props) {
                         </div>
 
                         <div>
-                          {item.qty} x GHS{item.price} = GHS{item.qty * item.price}
+                          {item.qty} x GH₵{item.price} = GH₵
+                          {item.qty * item.price}
                         </div>
                       </div>
                     </li>
@@ -151,7 +150,7 @@ export default function OrderScreen(props) {
                     <strong> Order Total</strong>
                   </div>
                   <div>
-                    <strong>GHS{order.totalPrice.toFixed(2)}</strong> 
+                    <strong>GHS{order.totalPrice.toFixed(2)}</strong>
                   </div>
                 </div>
               </li>
@@ -184,11 +183,14 @@ export default function OrderScreen(props) {
                       onChange={(e) => setPhone(e.target.value)}
                     />
                   </div>
-                  
-                  {<PaystackButton
-                    className="paystack-button"
-                    amount={order.totalPrice * 100}{...componentProps}
-                  /> }
+
+                  {
+                    <PaystackButton
+                      className="paystack-button"
+                      amount={order.totalPrice * 100}
+                      {...componentProps}
+                    />
+                  }
                 </div>
               </div>
             </ul>
@@ -196,8 +198,6 @@ export default function OrderScreen(props) {
         </div>
       </div>
     </div>
-
-    
   );
 
   

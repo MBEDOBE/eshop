@@ -25,30 +25,18 @@ export default function PaymentMethodScreen(props) {
           <h1>Payment Method</h1>
         </div>
         <div>
-          <div>
-            <input
-              type="radio"
-              id="paypal"
-              value="PayPal"
-              name="paymentMethod"
-              required
-              checked
-              onChange={(e) => setPaymentMethod(e.target.value)}
-            ></input>
-            <label htmlFor="paypal">PayPal</label>
-          </div>
         </div>
         <div>
           <div>
             <input
               type="radio"
-              id="stripe"
-              value="Stripe"
+              id="cash"
+              value="Cash"
               name="paymentMethod"
               required
               onChange={(e) => setPaymentMethod(e.target.value)}
             ></input>
-            <label htmlFor="stripe">Stripe</label>
+            <label htmlFor="cash">Cash on Delivery</label>
           </div>
         </div>
         <div>
@@ -56,12 +44,12 @@ export default function PaymentMethodScreen(props) {
             <input
               type="radio"
               id="paystack"
-              value="PayStack"
+              value="Mobile Money"
               name="paymentMethod"
               required
               onChange={(e) => setPaymentMethod(e.target.value)}
             ></input>
-            <label htmlFor="paystack">PayStack</label>
+            <label htmlFor="paystack">Mobile Money</label>
           </div>
         </div>
         <div>
