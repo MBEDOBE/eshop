@@ -2,31 +2,37 @@ import React, { useEffect, useState } from 'react';
 import { PaystackButton } from 'react-paystack';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
-import { detailsOrder } from '../actions/orderActions';
+import { detailsOrder, payOrder } from '../actions/orderActions';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
-
-
-
+import { ORDER_PAY_RESET } from '../constants/orderConstants';
 
 export default function OrderScreen(props) {
   const orderId = props.match.params.id;
+  const [sdkReady, setSdkReady] = useState(false);
   const orderDetails = useSelector((state) => state.orderDetails);
   const { order, loading, error } = orderDetails;
+
+  const orderPay = useSelector((state) => state.orderPay);
+  const {
+    loading: loadingPay,
+    error: errorPay,
+    success: successPay,
+  } = orderPay;
+
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(detailsOrder(orderId));
+    if (!order || successPay || (order && order._id !== orderId)) {
+      dispatch({ type: ORDER_PAY_RESET });
+      dispatch(detailsOrder(orderId));
+    }
+  }, [dispatch, order, orderId, successPay]);
 
-    
-  }, [dispatch, orderId]);
-
- 
-  //paystack
   const publicKey = 'pk_test_bfe3a24ab156c170aab28f4a705c4ba46730718d';
-  const currency = 'GHS'
-  const [email, setEmail] = useState("")
-  const [name, setName] = useState("")
-  const [phone, setPhone] = useState("")
+  const currency = 'GHS';
+  const [email, setEmail] = useState('');
+  const [name, setName] = useState('');
+  const [phone, setPhone] = useState('');
 
   const componentProps = {
     email,
@@ -37,15 +43,15 @@ export default function OrderScreen(props) {
     publicKey,
     currency,
     text: 'Buy Now',
-    onSuccess: () => {
-      setEmail('');
-      setName('');
-      setPhone('');
-    },
-    onClose: () => alert("Wait!"),
+
+    onClose: () => alert('Wait!'),
   };
 
-  
+  const successPaymentHandler = (paymentResult) => {
+    dispatch(payOrder(order, paymentResult));
+    
+  };
+
   return loading ? (
     <LoadingBox></LoadingBox>
   ) : error ? (
@@ -120,85 +126,130 @@ export default function OrderScreen(props) {
             </li>
           </ul>
         </div>
-        <div className="col-1">
-          <div className="card card-body">
-            <ul>
-              <li>
-                <h2>Order Summary</h2>
-              </li>
-              <li>
-                <div className="row">
-                  <div>Items</div>
-                  <div>GHS{order.itemsPrice.toFixed(2)}</div>
-                </div>
-              </li>
-              <li>
-                <div className="row">
-                  <div>Shipping</div>
-                  <div>{order.shippingPrice.toFixed(2)}</div>
-                </div>
-              </li>
-              <li>
-                <div className="row">
-                  <div>Tax</div>
-                  <div>{order.taxPrice.toFixed(2)}</div>
-                </div>
-              </li>
-              <li>
-                <div className="row">
-                  <div>
-                    <strong> Order Total</strong>
+        {!order.isPaid ? (
+          <div className="col-1">
+            <div className="card card-body">
+              <ul>
+                <li>
+                  <h2>Order Summary</h2>
+                </li>
+                <li>
+                  <div className="row">
+                    <div>Items</div>
+                    <div>GH₵{order.itemsPrice.toFixed(2)}</div>
                   </div>
-                  <div>
-                    <strong>GHS{order.totalPrice.toFixed(2)}</strong>
+                </li>
+                <li>
+                  <div className="row">
+                    <div>Shipping</div>
+                    <div>{order.shippingPrice.toFixed(2)}</div>
                   </div>
-                </div>
-              </li>
-              <div className="checkout">
-                <div className="checkout-form">
-                  <div className="checkout-field">
-                    <label>Name</label>
-                    <input
-                      type="text"
-                      id="name"
-                      value={name}
-                      onChange={(e) => setName(e.target.value)}
-                    />
+                </li>
+                <li>
+                  <div className="row">
+                    <div>Tax</div>
+                    <div>{order.taxPrice.toFixed(2)}</div>
                   </div>
-                  <div className="checkout-field">
-                    <label>Email</label>
-                    <input
-                      type="text"
-                      id="email"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                    />
+                </li>
+                <li>
+                  <div className="row">
+                    <div>
+                      <strong> Order Total</strong>
+                    </div>
+                    <div>
+                      <strong>GH₵{order.totalPrice.toFixed(2)}</strong>
+                    </div>
                   </div>
-                  <div className="checkout-field">
-                    <label>Phone</label>
-                    <input
-                      type="text"
-                      id="phone"
-                      value={phone}
-                      onChange={(e) => setPhone(e.target.value)}
-                    />
-                  </div>
+                </li>
+                <div className="checkout">
+                  <div className="checkout-form">
+                    <div className="checkout-field">
+                      <label>Name</label>
+                      <input
+                        type="text"
+                        id="name"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                      />
+                    </div>
+                    <div className="checkout-field">
+                      <label>Email</label>
+                      <input
+                        type="text"
+                        id="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                      />
+                    </div>
+                    <div className="checkout-field">
+                      <label>Phone</label>
+                      <input
+                        type="text"
+                        id="phone"
+                        value={phone}
+                        onChange={(e) => setPhone(e.target.value)}
+                      />
+                    </div>
 
-                  {
-                    <PaystackButton
-                      className="paystack-button"
-                      amount={order.totalPrice * 100}
-                      {...componentProps}
-                    />
-                  }
+                    {
+                      <>
+                        {errorPay && (
+                          <MessageBox variant="danger">{errorPay}</MessageBox>
+                        )}
+                        {loadingPay && <LoadingBox></LoadingBox>}
+                        <PaystackButton
+                          className="paystack-button"
+                          amount={order.totalPrice * 100}
+                          onSuccess={successPaymentHandler}
+                          {...componentProps}
+                        />
+                      </>
+                    }
+                  </div>
                 </div>
-              </div>
-            </ul>
+              </ul>
+            </div>
           </div>
-        </div>
+        ) : (
+          <div className="col-1">
+            <div className="card card-body">
+              <ul>
+                <li>
+                  <h2>Order Summary</h2>
+                </li>
+                <li>
+                  <div className="row">
+                    <div>Items</div>
+                    <div>GH₵{order.itemsPrice.toFixed(2)}</div>
+                  </div>
+                </li>
+                <li>
+                  <div className="row">
+                    <div>Shipping</div>
+                    <div>{order.shippingPrice.toFixed(2)}</div>
+                  </div>
+                </li>
+                <li>
+                  <div className="row">
+                    <div>Tax</div>
+                    <div>{order.taxPrice.toFixed(2)}</div>
+                  </div>
+                </li>
+                <li>
+                  <div className="row">
+                    <div>
+                      <strong> Order Total</strong>
+                    </div>
+                    <div>
+                      <strong>GH₵{order.totalPrice.toFixed(2)}</strong>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
-
-  
 }
