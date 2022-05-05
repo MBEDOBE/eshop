@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { PaystackButton } from 'react-paystack';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, Redirect } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { detailsOrder, payOrder } from '../actions/orderActions';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
@@ -9,7 +9,7 @@ import { ORDER_PAY_RESET } from '../constants/orderConstants';
 
 export default function OrderScreen(props) {
   const orderId = props.match.params.id;
-  const [sdkReady, setSdkReady] = useState(false);
+  //const [sdkReady, setSdkReady] = useState(false);
   const orderDetails = useSelector((state) => state.orderDetails);
   const { order, loading, error } = orderDetails;
 
