@@ -92,6 +92,9 @@ button.primary {
 button.block {
   width: 100%;
 }
+button.small {
+  font-size: 1.2rem;
+}
 /* Header */
 header a {
   color: #ffffff;
@@ -166,14 +169,14 @@ img.large {
   font-size: 2rem;
 }
 .card-btn {
-  display: flex;  
+  display: flex;
   align-items: flex-end;
   justify-content: flex-end;
   margin-top: 1rem;
 }
-.card-btn button{
- background-color: #f0c040;
- color: #171640;
+.card-btn button {
+  background-color: #f0c040;
+  color: #171640;
 }
 /* Rating */
 .rating span {
@@ -302,4 +305,22 @@ img.large {
   border-radius: 5px;
   color: #383838;
   height: 35px;
+}
+
+/* Table */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.table tbody tr:nth-of-type(odd) {
+  background-color: #f4f4f4;
+}
+.table td,
+.table th {
+  text-align: left;
+  border: 0.1rem solid #e4e4e4;
+  padding: 0.5rem;
+}
+.table button {
+  margin: 0 0.2rem;
 }

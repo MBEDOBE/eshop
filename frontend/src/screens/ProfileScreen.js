@@ -15,14 +15,15 @@ export default function ProfileScreen() {
   }, [dispatch, userInfo._id]);
   const submitHandler = (e) => {
     e.preventDefault();
-    // dispatch update profile
+    //dispatch update profile
   };
   return (
     <div>
-      <form className="form" onSubmit={submitHandler}>
+      <form onSubmit={submitHandler} className="form">
         <div>
           <h1>User Profile</h1>
         </div>
+
         {loading ? (
           <LoadingBox></LoadingBox>
         ) : error ? (
@@ -32,36 +33,32 @@ export default function ProfileScreen() {
             <div>
               <label htmlFor="name">Name</label>
               <input
-                id="name"
                 type="text"
+                id="name"
                 placeholder="Enter name"
                 value={user.name}
-              ></input>
+              />
             </div>
             <div>
-              <label htmlFor="email">Email</label>
+              <label htmlFor="name">email</label>
               <input
+                type="text"
                 id="email"
-                type="email"
                 placeholder="Enter email"
                 value={user.email}
-              ></input>
+              />
             </div>
             <div>
               <label htmlFor="password">Password</label>
-              <input
-                id="password"
-                type="password"
-                placeholder="Enter password"
-              ></input>
+              <input type="text" id="password" placeholder="Enter password" />
             </div>
             <div>
-              <label htmlFor="confirmPassword">confirm Password</label>
+              <label htmlFor="confirmPassword">Confirm Password</label>
               <input
+                type="text"
                 id="confirmPassword"
-                type="password"
                 placeholder="Enter confirm password"
-              ></input>
+              />
             </div>
             <div>
               <label />
