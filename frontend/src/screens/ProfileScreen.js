@@ -10,6 +10,7 @@ export default function ProfileScreen() {
   const userDetails = useSelector((state) => state.userDetails);
   const { loading, error, user } = userDetails;
   const dispatch = useDispatch();
+
   useEffect(() => {
     dispatch(detailsUser(userInfo._id));
   }, [dispatch, userInfo._id]);
@@ -57,7 +58,7 @@ export default function ProfileScreen() {
               <input
                 type="text"
                 id="confirmPassword"
-                placeholder="Enter confirm password"
+                placeholder="Confirm password"
               />
             </div>
             <div>

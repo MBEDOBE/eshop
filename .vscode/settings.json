@@ -3,7 +3,11 @@
     "editor.formatOnPaste": true,
     "editor.formatOnSave": true,
     "editor.formatOnType": true,
-    "editor.quickSuggestions": true,
+    "editor.quickSuggestions": {
+     "comments": "on",
+     "strings": "on",
+     "other": "on"
+    },
 
     "extensions.ignoreRecommendations": false,
     "explorer.confirmDelete": false,
