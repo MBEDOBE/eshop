@@ -45,7 +45,7 @@ export default function OrderScreen(props) {
       dispatch({ type: ORDER_DELIVER_RESET });
       dispatch(detailsOrder(orderId));
     }
-  }, [dispatch, order, orderId, successPay, successDeliver, order]);
+  }, [dispatch, orderId, successPay, successDeliver, order]);
 
   const publicKey = 'pk_test_bfe3a24ab156c170aab28f4a705c4ba46730718d';
   const currency = 'GHS';
