@@ -26,6 +26,9 @@ app.use('/api/orders', orderRouter);
 app.get('/api/config/paystack', (req, res) => {
   res.send(process.env.PAYSTACK_PUBLIC_KEY || 'test');
 });
+app.get('/api/config/googlemap', (req, res) => {
+  res.send(process.env.GOOGLE_API_KEY || '');
+});
 const __dirname = path.resolve();
 app.use('/uploads', express.static(path.join(__dirname, '/uploads')));
 
