@@ -10,6 +10,7 @@ import PrivateRoute from './components/PrivateRoute';
 import SearchBox from './components/SearchBox';
 import SellerRoute from './components/SellerRoute';
 import CartScreen from './screens/CartScreen';
+import DashboardScreen from './screens/DashboardScreen';
 import HomeScreen from './screens/HomeScreen';
 import MapScreen from './screens/MapScreen';
 import OrderHistoryScreen from './screens/OrderHistoryScreen';
@@ -234,6 +235,12 @@ function App() {
             path="/user/:id/edit"
             component={UserEditScreen}
           ></AdminRoute>
+
+          <AdminRoute
+            path="/dashboard"
+            component={DashboardScreen}
+          ></AdminRoute>
+
           <SellerRoute
             path="/productlist/seller"
             component={ProductListScreen}
