@@ -133,23 +133,28 @@ orderRouter.put(
       };
       const updatedOrder = await order.save();
       // from: should be a correct email
-      mailgun()
-        .messages()
-        .send(
-          {
-            from: 'eShop <eshop@mg.yourdomain.com>',
-            to: `${order.user.name} <${order.user.email}>`,
-            subject: `Your order ${order._id}`,
-            html: payOrderEmailTemplate(order),
-          },
-          (error, body) => {
-            if (error) {
-              console.log(error);
-            } else {
-              console.log(body);
+      try {
+        mailgun()
+          .messages()
+          .send(
+            {
+              from: 'Amazona <amazona@mg.yourdomain.com>',
+              to: `${order.user.name} <${order.user.email}>`,
+              subject: `New order ${order._id}`,
+              html: payOrderEmailTemplate(order),
+            },
+            (error, body) => {
+              if (error) {
+                console.log(error);
+              } else {
+                console.log(body);
+              }
             }
-          }
-        );
+          );
+      } catch (err) {
+        console.log(err);
+      }
+
       res.send({ message: 'Order Successfully Paid', order: updatedOrder });
     } else {
       res.status(404).send({ message: 'Order not Paid' });

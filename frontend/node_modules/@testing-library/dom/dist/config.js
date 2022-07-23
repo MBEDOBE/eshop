@@ -27,6 +27,8 @@ let config = {
   eventWrapper: cb => cb(),
   // default value for the `hidden` option in `ByRole` queries
   defaultHidden: false,
+  // default value for the `ignore` option in `ByText` queries
+  defaultIgnore: 'script, style',
   // showOriginalStackTrace flag to show the full error stack traces for async errors
   showOriginalStackTrace: false,
   // throw errors w/ suggestions for better queries. Opt in so off by default.

@@ -1,5 +1,5 @@
 import http from 'http';
-import {Server} from 'socket.io';
+import { Server } from 'socket.io';
 import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
@@ -15,11 +15,7 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-mongoose.connect(process.env.MONGODB_URL || 'mongodb://localhost/redux-eshop', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-  useCreateIndex: true,
-});
+mongoose.connect(process.env.MONGODB_URL || 'mongodb://localhost/redux-eshop');
 
 app.use('/api/uploads', uploadRouter);
 app.use('/api/users', userRouter);

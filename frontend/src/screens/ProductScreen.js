@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import Rating from '../components/Rating';
 import LoadingBox from '../components/LoadingBox';
@@ -8,8 +8,12 @@ import { createReview, detailsProduct } from '../actions/productActions';
 import { PRODUCT_REVIEW_CREATE_RESET } from '../constants/productConstants';
 
 export default function ProductScreen(props) {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
-  const productId = props.match.params.id;
+
+  const params = useParams();
+  const { id: productId } = params;
+
   const [qty, setQty] = useState(1);
   const productDetails = useSelector((state) => state.productDetails);
   const { loading, error, product } = productDetails;
@@ -36,7 +40,7 @@ export default function ProductScreen(props) {
     dispatch(detailsProduct(productId));
   }, [dispatch, productId, successReviewCreate]);
   const addToCartHandler = () => {
-    props.history.push(`/cart/${productId}?qty=${qty}`);
+    navigate(`/cart/${productId}?qty=${qty}`);
   };
   const submitHandler = (e) => {
     e.preventDefault();
